@@ -1,0 +1,6 @@
+D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaEntidad\bin\Debug\CapaEntidad.dll
+D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaEntidad\bin\Debug\CapaEntidad.pdb
+D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaEntidad\obj\Debug\CapaEntidad.csproj.AssemblyReference.cache
+D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaEntidad\obj\Debug\CapaEntidad.csproj.CoreCompileInputs.cache
+D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaEntidad\obj\Debug\CapaEntidad.dll
+D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaEntidad\obj\Debug\CapaEntidad.pdb
