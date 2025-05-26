@@ -9,3 +9,14 @@ D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNe
 D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNego.81B9D119.Up2Date
 D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNegocio.dll
 D:\Datos de Usuario\Desktop\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNegocio.pdb
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\CapaNegocio.dll
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\CapaNegocio.pdb
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\CapaDatos.dll
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\CapaEntidad.dll
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\CapaDatos.pdb
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\CapaEntidad.pdb
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNegocio.csproj.AssemblyReference.cache
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNegocio.csproj.CoreCompileInputs.cache
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNego.81B9D119.Up2Date
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNegocio.dll
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNegocio.pdb

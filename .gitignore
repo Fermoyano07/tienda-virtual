@@ -1,0 +1,17 @@
+# Archivos de Visual Studio
+.vs/
+*.user
+*.suo
+
+# Directorios de compilación
+bin/
+obj/
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Archivos generados
+*.dll
+*.pdb
+*.cache
