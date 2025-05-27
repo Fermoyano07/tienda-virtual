@@ -334,6 +334,10 @@
 
             filaSeleccionada = $(this).closest("tr");
 
+            if ($(filaSeleccionada).hasClass('child')) {
+                filaSeleccionada = $(filaSeleccionada).prev();
+            }
+
             var data = tabladata.row(filaSeleccionada).data();
 
             console.log(data);
