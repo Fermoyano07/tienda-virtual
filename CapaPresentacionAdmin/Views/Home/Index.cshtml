@@ -56,7 +56,7 @@
     </div>
     <div class="card-body">
 
-        <form>
+        <form action="@Url.Action("ExportarVenta", "Home")" method="post">
 
             <div class="row align-items-lg-end">
                 <div class="col-sm-2">
@@ -127,23 +127,63 @@
 
     <script>
 
-        $("#txtfechainicio").datepicker({dateFormat : 'dd/mm/yy'}).datepicker('setDate', new Date())
-        $("#txtfechafin").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker('setDate', new Date())
+        var tabladata;
 
-        jQuery.ajax({
-            url: '@Url.Action("VistaDashBoard", "Home")',
-            type: 'GET',
-            dataType: 'json',
-            contenTsType: 'application/json; charset=utf-8',
-            success: function (data) {
+        $(document).ready(function () {
 
-                var objeto = data.resultado;
+            $("#txtfechainicio").datepicker({dateFormat : 'dd/mm/yy'}).datepicker('setDate', new Date())
+            $("#txtfechafin").datepicker({ dateFormat: 'dd/mm/yy' }).datepicker('setDate', new Date())
 
-                $('#totalcliente').text(objeto.TotalCliente);
-                $('#totalventa').text(objeto.TotalVenta);
-                $('#totalproducto').text(objeto.TotalProducto);
-            }
-        });
+            jQuery.ajax({
+                url: '@Url.Action("VistaDashBoard", "Home")',
+                type: 'GET',
+                dataType: 'json',
+                contenTsType: 'application/json; charset=utf-8',
+                success: function (data) {
+
+                    var objeto = data.resultado;
+
+                    $('#totalcliente').text(objeto.TotalCliente);
+                    $('#totalventa').text(objeto.TotalVenta);
+                    $('#totalproducto').text(objeto.TotalProducto);
+                }
+            });
+
+            var Url = '@Url.Action("ListaReporte", "Home")' +
+                "?fechainicio=" + $("#txtfechainicio").val() +
+                "&fechafin=" + $("#txtfechafin").val() +
+                "&idtransaccion=" + $("#txtidtransaccion").val();
+
+            tabladata = $("#tabla").DataTable({
+                responsive: true,
+                ordering: false,
+                "ajax": {
+                    url: Url,
+                    type: "GET",
+                    dataType: "json"
+                },
+                "columns": [
+                    { "data": "FechaVenta" },
+                    { "data": "Cliente" },
+                    { "data": "Producto"},
+                    { "data": "Cantidad" },
+                    { "data": "Total" },
+                    { "data": "IdTransaccion" }
+                ],
+                "language": {
+                    "url": "https://cdn.datatables.net/plug-ins/2.2.1/i18n/es-ES.json"
+                }
+            });
+        })
+
+        $("#btnbuscar").on("click", function () {
+            var nueva_url = '@Url.Action("ListaReporte", "Home")' +
+            "?fechainicio=" + $("#txtfechainicio").val() +
+            "&fechafin=" + $("#txtfechafin").val() +
+            "&idtransaccion=" + $("#txtidtransaccion").val();
+
+            tabladata.ajax.url(nueva_url).load();
+        })
 
     </script>
 }
