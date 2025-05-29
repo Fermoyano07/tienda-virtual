@@ -31,7 +31,7 @@ namespace CapaNegocio
                 byte[] result = hash.ComputeHash(enc.GetBytes(texto));
 
                 foreach (byte b in result)
-                    sb.Append(b.ToString("2"));
+                    sb.Append(b.ToString("x2"));
             }
             return sb.ToString();
         }
