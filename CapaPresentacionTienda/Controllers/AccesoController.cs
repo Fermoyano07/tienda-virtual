@@ -66,9 +66,7 @@ namespace CapaPresentacionTienda.Controllers
         {
             Cliente oCliente = null;
 
-            oCliente = new CN_Cliente().Listar()
-                .Where(item => item.Correo == correo && item.Clave == CN_Recursos.ConvertirSha256(clave))
-                .FirstOrDefault();
+            oCliente = new CN_Cliente().Listar().Where(item => item.Correo == correo && item.Clave == CN_Recursos.ConvertirSha256(clave)).FirstOrDefault();
 
             if (oCliente == null) 
             {
@@ -77,7 +75,7 @@ namespace CapaPresentacionTienda.Controllers
             }
             else
             {
-                if (oCliente.Reestablecer)
+                if (oCliente.Reestablecer)//Poblema para Reestablecer Contraseña. Pasa directamente al else siguiente
                 {
                     TempData["IdCliente"] = oCliente.IdCliente;
                     return RedirectToAction("CambiarClave", "Acceso");
@@ -85,6 +83,7 @@ namespace CapaPresentacionTienda.Controllers
                 else 
                 {
                     FormsAuthentication.SetAuthCookie(oCliente.Correo, false);
+                    
                     Session["Cliente"] = oCliente;
 
                     ViewBag.Error = null;
@@ -96,18 +95,18 @@ namespace CapaPresentacionTienda.Controllers
         [HttpPost]
         public ActionResult Reestablecer(string correo)
         {
-            Cliente cliente = new Cliente();
+            Cliente oCliente = new Cliente();
 
-            cliente = new CN_Cliente().Listar().Where(item => item.Correo == correo).FirstOrDefault();
+            oCliente = new CN_Cliente().Listar().Where(item => item.Correo == correo).FirstOrDefault();
 
-            if (cliente == null)
+            if (oCliente == null)
             {
                 ViewBag.Error = "No se encontro un cliente relacionado a ese correo";
                 return View();
             }
 
             string mensaje = string.Empty;
-            bool respuesta = new CN_Cliente().ReestablecerClave(cliente.IdCliente, correo, out mensaje);
+            bool respuesta = new CN_Cliente().ReestablecerClave(oCliente.IdCliente, correo, out mensaje);
 
             if (respuesta)
             {
@@ -150,7 +149,7 @@ namespace CapaPresentacionTienda.Controllers
 
             string mensaje = string.Empty;
 
-            bool respuesta = new CN_Usuarios().CambiarClave(int.Parse(idcliente), nuevaclave, out mensaje);
+            bool respuesta = new CN_Cliente().CambiarClave(int.Parse(idcliente), nuevaclave, out mensaje);
 
             if (respuesta)
             {
@@ -166,6 +165,8 @@ namespace CapaPresentacionTienda.Controllers
 
         public ActionResult CerrarSesion()
         {
+            Session["Cliente"] = null;
+
             FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Acceso");
         }
