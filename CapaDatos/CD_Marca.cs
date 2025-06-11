@@ -1,9 +1,10 @@
 ﻿using CapaEntidad;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -146,6 +147,54 @@ namespace CapaDatos
                 Mensaje = ex.Message;
             }
             return resultado;
+        }
+
+        public List<Marca> ListarMarcaporCategoria(int idcategoria)
+        {
+            List<Marca> lista = new List<Marca>();
+
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.AppendLine("select distinct m.IdMarca, m.Descripcion from PRODUCTO p");
+                    sb.AppendLine("inner join CATEGORIA c on c.IdCategoria = p.IdCategoria");
+                    sb.AppendLine("inner join Marca m on m.IdMarca = p.IdMarca and m.Activo = 1");
+                    sb.AppendLine("where c.IdCategoria = iif(@idcategoria = 0, c.IdCategoria, @idcategoria)");
+
+                    //select distinct m.IdMarca, m.Descripcion from PRODUCTO p
+                    //inner join CATEGORIA c on c.IdCategoria = p.IdCategoria
+                    //inner join Marca m on m.IdMarca = p.IdMarca and m.Activo = 1
+                    //where c.IdCategoria = iif(@idcategoria = 0, c.IdCategoria, @idcategoria)
+
+                    SqlCommand cmd = new SqlCommand(sb.ToString(), oconexion);
+                    cmd.Parameters.AddWithValue("@idcategoria", idcategoria);
+                    cmd.CommandType = CommandType.Text;
+
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Marca()
+                            {
+                                IdMarca = Convert.ToInt32(dr["IdMarca"]),
+                                Descripcion = dr["Descripcion"].ToString()
+                            });
+                        }
+                    }
+                }
+
+            }
+            catch
+            {
+                lista = new List<Marca>();
+            }
+
+            return lista;
         }
 
     }
