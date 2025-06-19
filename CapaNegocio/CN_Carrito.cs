@@ -26,5 +26,6 @@ namespace CapaNegocio
         {
             return objCapaDato.CantidadEnCarrito(idcliente);
         }
-        }
+        
+    }
 }

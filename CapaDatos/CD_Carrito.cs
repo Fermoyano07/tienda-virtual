@@ -56,6 +56,7 @@ namespace CapaDatos
                     SqlCommand cmd = new SqlCommand("sp_OperacionCarrito", oconexion);
                     cmd.Parameters.AddWithValue("IdCliente", idcliente);
                     cmd.Parameters.AddWithValue("IdProducto", idproducto);
+                    cmd.Parameters.AddWithValue("Sumar", sumar);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -68,9 +69,11 @@ namespace CapaDatos
                     Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
                 }
             }
-            catch (Exception ex)
+            catch (Exception
+            )
             {
                 resultado = false;
+                Mensaje = "Error al procesar la operación en el carrito.";
             }
             return resultado;
         }
@@ -84,8 +87,8 @@ namespace CapaDatos
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
                 {
-                    SqlCommand cmd = new SqlCommand("select count (*) from carrito where idcliente = @idcliente", oconexion);
-                    cmd.Parameters.AddWithValue("@idcliente", idcliente);
+                    SqlCommand cmd = new SqlCommand("select count(*) from carrito where idcliente = @IdCliente", oconexion);
+                    cmd.Parameters.AddWithValue("@IdCliente", idcliente);
                     cmd.CommandType = CommandType.Text;
 
                     oconexion.Open();
