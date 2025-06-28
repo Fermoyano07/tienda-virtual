@@ -11,47 +11,7 @@ namespace CapaDatos
 {
     public class CD_Ubicacion
     {
-        public List<Departamento> ObtenerDepartamento()
-        {
-            List<Departamento> lista = new List<Departamento>();
-
-            try
-            {
-                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
-                {
-                    string query = "select * from departamento";
-
-                    SqlCommand cmd = new SqlCommand(query, oconexion);
-                    cmd.CommandType = CommandType.Text;
-
-                    oconexion.Open();
-
-                    using (SqlDataReader dr = cmd.ExecuteReader())
-                    {
-                        while (dr.Read())
-                        {
-                            lista.Add(new Departamento()
-                            {
-                                IdDepartamento = dr["IdDepartamento"].ToString(),
-                                Descripcion = dr["Descripcion"].ToString(),
-                                
-                            });
-
-                        }
-                    }
-                }
-
-            }
-            catch
-            {
-                lista = new List<Departamento>();
-            }
-
-            return lista;
-        }
-
-
-        public List<Provincia> ObtenerProvincia(string iddepartamento)
+        public List<Provincia> ObtenerProvincia()
         {
             List<Provincia> lista = new List<Provincia>();
 
@@ -59,10 +19,9 @@ namespace CapaDatos
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
                 {
-                    string query = "select * from provincia where IdDepartamento = @iddepartamento";
+                    string query = "SELECT * FROM Provincia";
 
                     SqlCommand cmd = new SqlCommand(query, oconexion);
-                    cmd.Parameters.AddWithValue("@iddepartamento", iddepartamento);
                     cmd.CommandType = CommandType.Text;
 
                     oconexion.Open();
@@ -88,7 +47,48 @@ namespace CapaDatos
         }
 
 
-        public List<Localidad> ObtenerLocalidad(string iddepartamento, string idprovincia)
+        public List<Departamento> ObtenerDepartamento(string idprovincia)
+        {
+            List<Departamento> lista = new List<Departamento>();
+
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                {
+                    string query = "SELECT * FROM Departamento WHERE IdProvincia = @idprovincia";
+                    
+                    SqlCommand cmd = new SqlCommand(query, oconexion);
+                    cmd.Parameters.AddWithValue("@idprovincia", idprovincia);
+                    cmd.CommandType = CommandType.Text;
+
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new Departamento()
+                            {
+                                IdDepartamento = dr["IdDepartamento"].ToString(),
+                                Descripcion = dr["Descripcion"].ToString(),
+
+                            });
+
+                        }
+                    }
+                }
+
+            }
+            catch
+            {
+                lista = new List<Departamento>();
+            }
+
+            return lista;
+        }
+
+
+        public List<Localidad> ObtenerLocalidad(string iddepartamento)
         {
             List<Localidad> lista = new List<Localidad>();
 
@@ -96,11 +96,10 @@ namespace CapaDatos
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
                 {
-                    string query = "select * from Localidad where IdProvincia = @idprovincia and IdDepartamento = @iddepartamento";
+                    string query = "SELECT * FROM Localidad WHERE IdDepartamento = @iddepartamento";
 
                     SqlCommand cmd = new SqlCommand(query, oconexion);
                     cmd.Parameters.AddWithValue("@iddepartamento", iddepartamento);
-                    cmd.Parameters.AddWithValue("@idprovincia", idprovincia);
                     cmd.CommandType = CommandType.Text;
 
                     oconexion.Open();
