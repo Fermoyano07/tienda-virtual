@@ -231,7 +231,34 @@ namespace CapaPresentacionTienda.Controllers
             TempData["Venta"] = oVenta;
             TempData["DetalleVenta"] = detalle_venta;
 
-            return Json(new { Status = true, Link = "/Tienda/Pagorealizado?idTransaccion=code0001&status=true" }, JsonRequestBehavior.AllowGet);
+            return Json(new { Status = true, Link = "/Tienda/PagoRealizado?idTransaccion=code0001&status=true" }, JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> PagoRealizado()
+        {
+            string idtransaccion = Request.QueryString["idTransaccion"];
+            bool status = Convert.ToBoolean(Request.QueryString["status"]);
+
+            ViewData["Status"] = status;
+
+            if (status)
+            {
+                Venta oVenta = (Venta)TempData["Venta"];
+
+                DataTable detalle_venta = (DataTable)TempData["DetalleVenta"];
+
+                oVenta.IdTransaccion = idtransaccion;
+
+                string mensaje = string.Empty;
+
+                bool respuesta = new CN_Venta().RegistrarVenta(oVenta, detalle_venta, out mensaje);
+
+                ViewData["IdTransaccion"] = oVenta.IdTransaccion;
+
+            }
+
+            return View();
+
         }
     }
 }
