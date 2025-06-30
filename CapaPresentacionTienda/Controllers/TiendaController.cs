@@ -6,6 +6,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using System.Threading.Tasks;
+using System.Data;
+using System.Globalization;
 
 namespace CapaPresentacionTienda.Controllers
 {
@@ -142,9 +145,9 @@ namespace CapaPresentacionTienda.Controllers
         public JsonResult OperacionCarrito(int idproducto, bool sumar)
         {
             int idcliente = ((Cliente)Session["Cliente"]).IdCliente;
-           
+
             bool respuesta = false;
-            
+
             string mensaje = string.Empty;
 
             respuesta = new CN_Carrito().OperacionCarrito(idcliente, idproducto, true, out mensaje);
@@ -154,7 +157,8 @@ namespace CapaPresentacionTienda.Controllers
 
 
         [HttpPost]
-        public JsonResult EliminarCarrito(int idproducto) {
+        public JsonResult EliminarCarrito(int idproducto)
+        {
             int idcliente = ((Cliente)Session["Cliente"]).IdCliente;
 
             bool respuesta = false;
@@ -174,7 +178,8 @@ namespace CapaPresentacionTienda.Controllers
         }
 
         [HttpPost]
-        public JsonResult ObtenerDepartamento(string idprovincia) {
+        public JsonResult ObtenerDepartamento(string idprovincia)
+        {
             List<Departamento> oLista = new List<Departamento>();
             oLista = new CN_Ubicacion().ObtenerDepartamento(idprovincia);
             return Json(new { lista = oLista }, JsonRequestBehavior.AllowGet);
@@ -189,8 +194,44 @@ namespace CapaPresentacionTienda.Controllers
         }
 
 
-        public ActionResult Carrito() {
+        public ActionResult Carrito()
+        {
             return View();
+        }
+
+        // Terminar y Procesar Pago - Paypal
+        [HttpPost]
+        public async Task<JsonResult> ProcesarPago(List<Carrito> oListaCarrito, Venta oVenta)
+        {
+            decimal total = 0;
+
+            DataTable detalle_venta = new DataTable();
+
+            detalle_venta.Locale = new CultureInfo("es-PE");
+            detalle_venta.Columns.Add("IdProducto", typeof(string));
+            detalle_venta.Columns.Add("Cantidad", typeof(int));
+            detalle_venta.Columns.Add("Total", typeof(decimal));
+
+            foreach (Carrito oCarrito in oListaCarrito)
+            {
+                decimal subtotal = Convert.ToDecimal(oCarrito.Cantidad.ToString()) * oCarrito.oProducto.Precio;
+
+                total += subtotal;
+
+                detalle_venta.Rows.Add(new object[] {
+                    oCarrito.oProducto.IdProducto,
+                    oCarrito.Cantidad,
+                    subtotal
+                });
+            }
+
+            oVenta.MontoTotal = total;
+            oVenta.IdCliente = ((Cliente)Session["Cliente"]).IdCliente;
+
+            TempData["Venta"] = oVenta;
+            TempData["DetalleVenta"] = detalle_venta;
+
+            return Json(new { Status = true, Link = "/Tienda/Pagorealizado?idTransaccion=code0001&status=true" }, JsonRequestBehavior.AllowGet);
         }
     }
 }
