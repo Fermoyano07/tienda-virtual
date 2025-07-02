@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +49,53 @@ namespace CapaDatos
                 Mensaje = ex.Message;
             }
             return respuesta;
+        }
+
+
+        public List<DetalleVenta> ListarCompras(int idcliente)
+        {
+            List<DetalleVenta> lista = new List<DetalleVenta>();
+
+            try
+            {
+                using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
+                {
+                    string query = "select * from fn_ListarCompra(@idcliente)";
+
+                    SqlCommand cmd = new SqlCommand(query, oconexion);
+                    cmd.Parameters.AddWithValue("@idcliente", idcliente);
+                    cmd.CommandType = CommandType.Text;
+
+                    oconexion.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            lista.Add(new DetalleVenta()
+                            {
+                                oProducto = new Producto
+                                {
+                                    Nombre = dr["Nombre"].ToString(),
+                                    Precio = Convert.ToDecimal(dr["Precio"], new CultureInfo("es-PE")),
+                                    RutaImagen = dr["RutaImagen"].ToString(),
+                                    NombreImagen = dr["NombreImagen"].ToString(),
+                                },
+
+                                Cantidad = Convert.ToInt32(dr["Cantidad"]),
+                                Total = Convert.ToDecimal(dr["Total"], new CultureInfo("es-PE")),
+                                IdTransaccion = dr["IdTransaccion"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                lista = new List<DetalleVenta>();
+            }
+
+            return lista;
         }
     }
 }

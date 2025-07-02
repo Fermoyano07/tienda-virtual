@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Data;
 using System.Globalization;
 using CapaEntidad.Paypal;
+using CapaPresentacionTienda.Filter;
 
 namespace CapaPresentacionTienda.Controllers
 {
@@ -194,7 +195,8 @@ namespace CapaPresentacionTienda.Controllers
             return Json(new { lista = oLista }, JsonRequestBehavior.AllowGet);
         }
 
-
+        [ValidarSession]
+        [Authorize]
         public ActionResult Carrito()
         {
             return View();
@@ -288,7 +290,8 @@ namespace CapaPresentacionTienda.Controllers
             //new { Status = true, Link = "/Tienda/PagoRealizado?idTransaccion=code0001&status=true" }
             return Json(response_paypal, JsonRequestBehavior.AllowGet);
         }
-
+        [ValidarSession]
+        [Authorize]
         public async Task<ActionResult> PagoRealizado()
         {
             string token = Request.QueryString["token"];
@@ -317,6 +320,33 @@ namespace CapaPresentacionTienda.Controllers
 
             return View();
 
+        }
+
+        [ValidarSession]
+        [Authorize]
+        public ActionResult MisCompras()
+        {
+            int idcliente = ((Cliente)Session["Cliente"]).IdCliente;
+
+            List<DetalleVenta> olista = new List<DetalleVenta>();
+
+            bool conversion;
+
+            olista = new CN_Venta().ListarCompras(idcliente).Select(oc => new DetalleVenta()
+            {
+                oProducto = new Producto()
+                {
+                    Nombre = oc.oProducto.Nombre,
+                    Precio = oc.oProducto.Precio,
+                    Base64 = CN_Recursos.ConvertirBase64(Path.Combine(oc.oProducto.RutaImagen, oc.oProducto.NombreImagen), out conversion),
+                    Extension = Path.GetExtension(oc.oProducto.NombreImagen)
+                },
+                Cantidad = oc.Cantidad,
+                Total = oc.Total,
+                IdTransaccion = oc.IdTransaccion
+            }).ToList();
+
+            return  View (olista);
         }
     }
 }
