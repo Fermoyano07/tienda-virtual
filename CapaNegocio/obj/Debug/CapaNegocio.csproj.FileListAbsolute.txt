@@ -20,3 +20,7 @@ D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\De
 D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNego.81B9D119.Up2Date
 D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNegocio.dll
 D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\obj\Debug\CapaNegocio.pdb
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\Newtonsoft.Json.dll
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\System.Configuration.ConfigurationManager.dll
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\Newtonsoft.Json.xml
+D:\Datos de Usuario\Desktop\Proyectos\Proyectos VSCode\Tienda\CapaNegocio\bin\Debug\System.Configuration.ConfigurationManager.xml
